@@ -69,7 +69,10 @@ public class Sudoku extends Activity implements OnClickListener {
 			.show();
 	}
 
-	protected void startGame(int which) {
-		Log.d(TAG, "clicked on" + which);
+	protected void startGame(int difficulty) {
+		Log.d(TAG, "clicked on" + difficulty);
+		Intent intent = new Intent(Sudoku.this, Game.class);
+		intent.putExtra(Game.KEY_DIFFICULTY, difficulty);
+		startActivity(intent);
 	}    
 }
