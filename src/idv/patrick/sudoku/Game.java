@@ -1,11 +1,13 @@
 package idv.patrick.sudoku;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
-public class Game extends Activity {
-
+public class Game extends Activity {
 	private static final String TAG = "Sudoku";
 
 	public static final String KEY_DIFFICULTY = "difficulty";
@@ -120,8 +122,6 @@ public class Game extends Activity {
 		for (int x = 0; x < 9; x++) {
 			for (int y = 0; y < 9; y++) {
 				used[x][y] = calculateUsedTiles(x, y);
-				// Log.d(TAG, "used[" + x + "][" + y + "] = "
-				// + toPuzzleString(used[x][y]));
 			}
 		}
 	}
@@ -171,4 +171,26 @@ public class Game extends Activity {
 		}
 		return c1;
 	}
+
+	/** Convert an array into a puzzle string */
+    static private String toPuzzleString(int[] puz) {
+        StringBuilder buf = new StringBuilder();
+        for (int element : puz) {
+            buf.append(element);
+        }
+        return buf.toString();
+    }
+    
+	public void showKeypadOrError(int x, int y) {
+        int tiles[] = getUsedTiles(x, y);
+        if (tiles.length == 9) {
+            Toast toast = Toast.makeText(this, R.string.no_moves_label, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            Log.d(TAG, "showKeypad: used=" + toPuzzleString(tiles));
+            Dialog v = new Keypad(this, tiles, puzzleView);
+            v.show();
+        }
+    }
 }
