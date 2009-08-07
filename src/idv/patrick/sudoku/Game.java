@@ -193,4 +193,16 @@ public class Game extends Activity {
             v.show();
         }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Music.stop(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Music.play(this, R.raw.game);
+    }
 }
